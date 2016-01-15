@@ -62,7 +62,13 @@ public class DB {
 
     // имена колонок для вывода данных
     public static final String GET_DATE_MATCH_ID = "match_id";
+    public static final String GET_DATE_GAME_ID = "_id";
     public static final String GET_DATE_TEAM_1 = "team_1";
+    public static final String GET_DATE_TEAM_2 = "team_2";
+    public static final String GET_DATE_SCORE_1 = "score_1";
+    public static final String GET_DATE_SCORE_2 = "score_2";
+    public static final String GET_DATE_MAP_ID = "map_id";
+    public static final String GET_DATE_MAP_NAME = "name_map";
 
     private Context m_Context;
     private DBHelper mDBHelper;
@@ -74,15 +80,15 @@ public class DB {
 
     public Cursor getDate() {
         Cursor c;
-        String sqlQuery = "select t1." + MATCH_COLUMN_ID + " as " + GET_DATE_MATCH_ID + ", t2." + GAME_COLUMN_ID + ", "
+        String sqlQuery = "select t1." + MATCH_COLUMN_ID + " as " + GET_DATE_MATCH_ID + ", t2." + GAME_COLUMN_ID + " as " + GET_DATE_GAME_ID + ", "
                 //+ "(select t3." + TEAM_COLUMN_NAME +" from " + TEAM_TABLE +" as t3 where t1." + MATCH_COLUMN_TEAM1_ID + " = t3." + TEAM_COLUMN_ID +") as team_1, "
-                + "t3." + TEAM_COLUMN_NAME + " as team_1, "
+                + "t3." + TEAM_COLUMN_NAME + " as " + GET_DATE_TEAM_1 + ", "
                 //+ "(select t3." + TEAM_COLUMN_NAME +" from " + TEAM_TABLE +" as t3 where t1." + MATCH_COLUMN_TEAM2_ID + " = t3." + TEAM_COLUMN_ID +") as team_2, "
-                + "t4." + TEAM_COLUMN_NAME + " as team_2, "
-                + "t2.score1 as score_1, "
-                + "t2.score2 as score_2, "
-                + "t2." + GAME_COLUMN_MAP_ID + " as map_id, "
-                + "t2." + GAME_COLUMN_MAP_NAME + " as name_map "
+                + "t4." + TEAM_COLUMN_NAME + " as " + GET_DATE_TEAM_2 + ", "
+                + "t2.score1 as " + GET_DATE_SCORE_1 + ", "
+                + "t2.score2 as " + GET_DATE_SCORE_2 + ", "
+                + "t2." + GAME_COLUMN_MAP_ID + " as " + GET_DATE_MAP_ID + ", "
+                + "t2." + GAME_COLUMN_MAP_NAME + " as " + GET_DATE_MAP_NAME + " "
                 + "from " + MATCH_TABLE + " as t1 "
                 + "inner join " + GAME_TABLE +" as t2 on t1." + MATCH_COLUMN_ID + " = t2." + GAME_COLUMN_MATCH_ID + " "
                 + "join " + TEAM_TABLE + " as t3 on t1." + MATCH_COLUMN_TEAM1_ID + " = t3." + TEAM_COLUMN_ID + " "
