@@ -40,9 +40,9 @@ public class MainActivity extends Activity {
 
             SQLiteCursor cursor = (SQLiteCursor) match_list.getItemAtPosition(info.position);
 
-            menu.setHeaderTitle(cursor.getString(cursor.getColumnIndex("team_1")) + " - " + cursor.getString(cursor.getColumnIndex("team_2"))
-                    + " " + cursor.getInt(cursor.getColumnIndex("score_1")) + " : " + cursor.getInt(cursor.getColumnIndex("score_2"))
-                    + " " + cursor.getString(cursor.getColumnIndex("name_map")));
+            menu.setHeaderTitle(cursor.getString(cursor.getColumnIndex(DB.GET_DATE_TEAM_1)) + " - " + cursor.getString(cursor.getColumnIndex(DB.GET_DATE_TEAM_2))
+                    + " " + cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) + " : " + cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_2))
+                    + " " + cursor.getString(cursor.getColumnIndex(DB.GET_DATE_MAP_NAME)));
 
             String[] menuItems = getResources().getStringArray(R.array.context_menu);
             for(int i=0; i<menuItems.length; i++) {
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
             case 1: // Delete
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 Cursor c = (SQLiteCursor) match_list.getItemAtPosition(info.position);
-                db.del_game(c.getColumnIndex(DB.GA));
+                db.del_game(c.getColumnIndex(DB.GET_DATE_GAME_ID));
 
                 Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
                 //db.del_game(match_list.);
@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 
         // формируем столбцы сопоставления
         //String[] from = new String[] { "match_id", "_id", "team_1", "team_2", "score_1", "score_2", "map_id", "name_map" };
-        String[] from = new String[] { DB.GET_DATE_MATCH_ID, DB.GET_DATE_GAME_ID, DB.GET_DATE_TEAM_1, DB.GET_DATE_TEAM_2, DB.GET_DATE_SCORE_1, DB.GET_DATE_SCORE_2, DB.GET_DATE_MAP_ID, DB.GET_DATE_MAP_NAME}
+        String[] from = new String[] { DB.GET_DATE_MATCH_ID, DB.GET_DATE_GAME_ID, DB.GET_DATE_TEAM_1, DB.GET_DATE_TEAM_2, DB.GET_DATE_SCORE_1, DB.GET_DATE_SCORE_2, DB.GET_DATE_MAP_ID, DB.GET_DATE_MAP_NAME};
         int[] to = new int[] { R.id.tv_id_match, R.id.tv_id_game, R.id.tv_name_team1, R.id.tv_name_team2, R.id.tv_score_team1, R.id.tv_score_team2, R.id.map_img, R.id.tv_name_map};
 
         // создааем адаптер и настраиваем список
@@ -158,9 +158,9 @@ public class MainActivity extends Activity {
 
             switch (view.getId()) {
                 case R.id.tv_score_team1:
-                    if(cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) > cursor.getInt(cursor.getColumnIndex("score_2"))) {
+                    if(cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) > cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_2))) {
                         ((TextView) view).setTextColor(win);
-                    } else if(cursor.getInt(cursor.getColumnIndex("score_1")) < cursor.getInt(cursor.getColumnIndex("score_2"))) {
+                    } else if(cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) < cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_2))) {
                         ((TextView) view).setTextColor(lose);
                     } else {
                         ((TextView) view).setTextColor(draw);
@@ -168,9 +168,9 @@ public class MainActivity extends Activity {
                     break;
 
                 case R.id.tv_score_team2:
-                    if(cursor.getInt(cursor.getColumnIndex("score_1")) > cursor.getInt(cursor.getColumnIndex("score_2"))) {
+                    if(cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) > cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_2))) {
                         ((TextView) view).setTextColor(lose);
-                    } else if(cursor.getInt(cursor.getColumnIndex("score_1")) < cursor.getInt(cursor.getColumnIndex("score_2"))) {
+                    } else if(cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_1)) < cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_SCORE_2))) {
                         ((TextView) view).setTextColor(win);
                     } else {
                         ((TextView) view).setTextColor(draw);
@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
                     break;
 
                 case R.id.map_img:
-                    int map = cursor.getInt(cursor.getColumnIndex("map_id"));
+                    int map = cursor.getInt(cursor.getColumnIndex(DB.GET_DATE_MAP_ID));
                     ((ImageView) view).setImageDrawable(getResources().getDrawable(maps.get(map - 1).getImgId()));
                     return true;
             }
