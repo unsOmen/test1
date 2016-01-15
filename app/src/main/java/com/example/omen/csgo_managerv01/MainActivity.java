@@ -1,6 +1,7 @@
 package com.example.omen.csgo_managerv01;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
@@ -61,10 +62,13 @@ public class MainActivity extends Activity {
             case 1: // Delete
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 Cursor c = (SQLiteCursor) match_list.getItemAtPosition(info.position);
-                db.del_game(c.getColumnIndex(DB.GET_DATE_GAME_ID));
 
-                Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                //db.del_game(match_list.);
+                int match_id = c.getInt(c.getColumnIndex(DB.GET_DATE_MATCH_ID));
+                int game_id = c.getInt(c.getColumnIndex(DB.GET_DATE_GAME_ID));
+
+                db.del_game(game_id, match_id);
+
+                cursor.requery();
 
                 break;
         }
