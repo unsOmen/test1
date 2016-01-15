@@ -168,12 +168,30 @@ public class DB {
         m_DB.endTransaction();
     }
 
-    public void del_game(long id) {
+    public void del_game(long gameId, long matchId) {
         m_DB.beginTransaction();
-        int delCount = m_DB.delete(GAME_TABLE, GAME_COLUMN_ID + " = " + id, null);
-        Toast.makeText(m_Context, "Delete count = " + delCount, Toast.LENGTH_SHORT).show();
+
+        m_DB.delete(GAME_TABLE, GAME_COLUMN_ID + " = " + gameId, null);
+
         m_DB.setTransactionSuccessful();
         m_DB.endTransaction();
+
+        checkGamesOfMatch(matchId);
+    }
+
+    void checkGamesOfMatch(long matchId) {
+        String selection = GAME_COLUMN_MATCH_ID + " = ?";
+        String[] selectionArg = new String[] { String.valueOf(matchId) };
+        Cursor c = m_DB.query(GAME_TABLE, null, selection, selectionArg, null, null, null);
+
+        if(c.getCount()<=0) {
+            m_DB.beginTransaction();
+
+            m_DB.delete(MATCH_TABLE, MATCH_COLUMN_ID + " = " + matchId, null);
+
+            m_DB.setTransactionSuccessful();
+            m_DB.endTransaction();
+        }
     }
 
     // закрываем подключение
