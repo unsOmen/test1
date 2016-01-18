@@ -32,6 +32,8 @@ public class MainActivity extends Activity {
     SimpleCursorAdapter scAdapter;
     ArrayList<MapList> maps;
 
+    public static final String INTENT_GAME_ID = "game_id";
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -54,15 +56,18 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Cursor c = (SQLiteCursor) match_list.getItemAtPosition(info.position);
+
         switch (item.getItemId()) {
             case 0: // Edit
-                Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), EditMatch.class);
+                intent.putExtra(INTENT_GAME_ID, c.getLong(c.getColumnIndex(DB.GET_DATE_GAME_ID)));
+                startActivity(intent);
+
                 break;
 
             case 1: // Delete
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                Cursor c = (SQLiteCursor) match_list.getItemAtPosition(info.position);
-
                 int match_id = c.getInt(c.getColumnIndex(DB.GET_DATE_MATCH_ID));
                 int game_id = c.getInt(c.getColumnIndex(DB.GET_DATE_GAME_ID));
 
