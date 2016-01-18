@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#96030405</color>
+    <color name="colorAccent">#545454</color>
+    <color name="color_bg_list">#000000</color>
+    <color name="color_bg">#000000</color>
+    <color name="color_win">#12ff29</color>
+    <color name="color_lose">#ff0000</color>
+    <color name="color_draw">#dcba23</color>
+    <color name="sel_team1">#0000ff</color>
+    <color name="sel_team2">#ff0000</color>
+    <color name="map_list">#c7c6c6</color>
+    <color name="shape_color">#6996ff</color>
+</resources>

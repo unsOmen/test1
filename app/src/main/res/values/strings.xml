@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">CSGO_Manager v0.1</string>
+    <string name="menu_add_match">Добавить</string>
+    <string name="team1">TEAM 1</string>
+    <string name="team2">TEAM 2</string>
+    <string name="versus">VS.</string>
+    <string name="sel_teams">SELECT TEAMS</string>
+    <string name="sel_team1">SELECT TEAM 1</string>
+    <string name="sel_team2">SELECT TEAM 2</string>
+    <string name="add_match">ADD MATCH</string>
+    <string name="add_game">ADD GAME</string>
+    <string name="add">ADD</string>
+    <string name="cancel">CANCEL</string>
+    <string name="edit">Edit</string>
+
+    <string-array name="context_menu">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+</resources>
