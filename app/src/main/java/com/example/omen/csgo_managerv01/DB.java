@@ -111,6 +111,33 @@ public class DB {
         return m_DB.query(TEAM_TABLE, null ,null ,null, null, null, null);
     }
 
+    public Cursor getGame(long game_id) {
+        Cursor c;
+        //String sqlQuery = "";
+        String table = GAME_TABLE + " as t1" + " " // t1 = games
+                + "inner join " + MATCH_TABLE + " as t2 on t1." + GAME_COLUMN_MATCH_ID + " = t2." + MATCH_COLUMN_ID + " " // t2 matchs
+                + "join " + TEAM_TABLE + " as t3 on t2." + MATCH_COLUMN_TEAM1_ID + " = t3." + TEAM_COLUMN_ID + " " // t3 team1
+                + "join " + TEAM_TABLE + " as t4 on t2." + MATCH_COLUMN_TEAM2_ID + " = t4." + TEAM_COLUMN_ID; // t4 team2
+
+        String columns[] = {"t2." + MATCH_COLUMN_ID + " as " + GET_DATE_MATCH_ID,
+                            "t1." + GAME_COLUMN_ID + " as " + GET_DATE_GAME_ID,
+                            "t3." + TEAM_COLUMN_NAME + " as " + GET_DATE_TEAM_1,
+                            "t4." + TEAM_COLUMN_NAME + " as " + GET_DATE_TEAM_2,
+                            "t1." + GAME_COLUMN_SCORE_TEAM1 + " as " + GET_DATE_SCORE_1,
+                            "t1." + GAME_COLUMN_SCORE_TEAM2 + " as " + GET_DATE_SCORE_2,
+                            "t1." + GAME_COLUMN_MAP_ID + " as " + GET_DATE_MAP_ID,
+                            "t1." + GAME_COLUMN_MAP_NAME + " as " + GET_DATE_MAP_NAME};
+
+        String selection = "t1._id = ?";
+
+        String[] selectionArgs = { String.valueOf(game_id)};
+
+        c = m_DB.query(table, columns, selection, selectionArgs, null, null, null);
+        logCursor(c);
+
+        return c;
+    }
+
     public static void logCursor(Cursor c) {
         if (c != null) {
             if (c.moveToFirst()) {
@@ -164,6 +191,18 @@ public class DB {
         cv.put(GAME_COLUMN_MAP_ID, map.getId());
         cv.put(GAME_COLUMN_MAP_NAME, map.getName());
         m_DB.insert(GAME_TABLE, null, cv);
+        m_DB.setTransactionSuccessful();
+        m_DB.endTransaction();
+    }
+
+    public void update_game(long game_id, int score_1, int score_2, MapList map) {
+        m_DB.beginTransaction();
+        ContentValues cv = new ContentValues();
+        cv.put(GAME_COLUMN_SCORE_TEAM1, score_1);
+        cv.put(GAME_COLUMN_SCORE_TEAM2, score_2);
+        cv.put(GAME_COLUMN_MAP_ID, map.getId());
+        cv.put(GAME_COLUMN_MAP_NAME, map.getName());
+        m_DB.update(GAME_TABLE, cv, GAME_COLUMN_ID + " = ?", new String[] { String.valueOf(game_id)});
         m_DB.setTransactionSuccessful();
         m_DB.endTransaction();
     }
